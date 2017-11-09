@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  tra-booker:
+    build: .
+    volumes:
+      - .:/src
