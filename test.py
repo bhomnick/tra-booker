@@ -1,8 +1,16 @@
-from decoder import decode
+from booking.decoder import Captcha
 
 
 exclude = [189]
 
 #for i in range(1, 26):
 #    print "Test: ", i
-decode(6, limit=50, max=100, min=0, exclude=[])
+
+c = Captcha('tests/data/c6.jpeg')
+
+
+print(c.decode())
+
+
+
+#decode(6, limit=50, max=100, min=0, exclude=[])
