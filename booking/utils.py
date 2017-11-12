@@ -150,19 +150,6 @@ def vectorize(im):
     return d1
 
 
-def to_gif(im):
-    """
-    Converts `im` to a gif if it isn't already one.
-
-    Args:
-        im (Image): Source image.
-
-    Return:
-        Image: The resulting image.
-    """
-    return im if im.mode is 'P' else im.convert('P')
-
-
 def cosine_similarity(im1, im2):
     """
     Calculates the cosine similarity between vector space representations

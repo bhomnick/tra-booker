@@ -5,7 +5,7 @@ import os
 from operator import itemgetter
 from PIL import Image, ImageFilter
 
-from .utils import features, monochrome, cosine_similarity, to_gif
+from .utils import features, monochrome, cosine_similarity
 
 
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +37,7 @@ def _get_icons():
 
 class Captcha(object):
 
-    def __init__(self, impath, max_chars=6, min_similarity=0, max_guesses=1,
+    def __init__(self, impath, max_chars=6, min_similarity=0, max_guesses=2,
                  min_feature_pixels=50, channels=50, min_color=10,
                  max_color=100, rank_size=3, rank_value=2):
         """
@@ -91,31 +91,15 @@ class Captcha(object):
             list: A least of monochrome `Image` objects representing
                 significant features.
         """
-
-        im = self.im
-
-        im.save('tests/original.gif')
-
-        im = monochrome(im, limit=self.channels, min=self.min_color,
+        im = monochrome(self.im, limit=self.channels, min=self.min_color,
                         max=self.max_color)
-
-        im.save('tests/mono.gif')
 
         if self.rank_size > 0:
             im = im.filter(ImageFilter.RankFilter(
                 self.rank_size, self.rank_value))
 
-        im.save('tests/filtered.gif')
-
-        fs = features(im, max_features=self.max_chars,
+        return  features(im, max_features=self.max_chars,
                         min_pixels=self.min_feature_pixels)
-
-        for c, f in enumerate(fs):
-            f.save('tests/feature{}.gif'.format(c))
-
-        return fs
-
-
 
     def decode(self, flat=True):
         """
@@ -127,19 +111,29 @@ class Captcha(object):
 
         Return:
             If `flat` is specified, will return a string guess of each
-            character, i.e. "CJ39KZ", otherwise return a list where each
+            character, i.e. "56954", otherwise return a list where each
             item represents a list of guesses for a character. The guesses
             are of the form (<char>, <similarity>) with up to `max_guesses`
             returned.
 
             [
                 [
-                    ('A', 0.1234),
+                    ('5', 0.9372757538632674),
+                    ('6', 0.9077552576785975)
+                ],
+                [
+                    ('6', 0.9249166113296302),
+                    ('4', 0.8988542325080914)
+                ],
+                ...
+            ]
         """
-
-        print(self.features)
-
         decoded = [self.guess_character(f) for f in self.features]
+        if flat:
+            val = ""
+            for char in decoded:
+                val += char[0][0]
+            return val
         return decoded
 
     def guess_character(self, im):
@@ -153,9 +147,6 @@ class Captcha(object):
             A list of tuples, of the form (<guessed char>, <similarity>)
         """
         guesses = []
-
-        for i in _get_icons():
-            print(i)
 
         for symbol, icon in _get_icons():
             guess = cosine_similarity(im, icon)
