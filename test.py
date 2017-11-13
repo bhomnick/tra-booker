@@ -6,10 +6,9 @@ exclude = [189]
 #for i in range(1, 26):
 #    print "Test: ", i
 
-c = Captcha('tests/data/c6.jpeg')
-
-
-print(c.decode())
+for i in range (100):
+    c = Captcha('tests/data/c6.jpeg')
+    print(c.decode())
 
 
 
