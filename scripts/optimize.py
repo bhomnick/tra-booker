@@ -60,7 +60,7 @@ def do_test(x, *args):
 
 slices = numpy.s_[
     10:90:20,   # min_feature_pixels
-    10:50:10,    # channels
+    10:50:10,   # channels
     0:30:10,    # min_color
     60:140:20,  # max_color
 ]
