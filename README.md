@@ -5,6 +5,14 @@
 A captcha decoder for the Taiwan Railways Administration (TRA) online
 booking system.
 
+## Installation
+
+Use pip to install:
+
+```bash
+pip install git+https://github.com/bhomnick/tra-captcha.git
+```
+
 ## How to use
 
 For most use cases, the default settings should give reasonable results
