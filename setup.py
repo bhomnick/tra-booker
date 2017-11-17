@@ -33,7 +33,7 @@ setup(
     version='0.0.1',
     description=("Captcha decoder for the Taiwan Railways Administration (TRA)"
                  " online ticketing system"),
-    long_description=open('README.md').read(),
+    long_description=long_description,
     license='MIT License',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
