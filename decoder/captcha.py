@@ -96,7 +96,7 @@ class Captcha(object):
             im = im.filter(ImageFilter.RankFilter(
                 self.rank_size, self.rank_value))
 
-        return  features(im, max_features=self.max_chars,
+        return features(im, max_features=self.max_chars,
                         min_pixels=self.min_feature_pixels)
 
     def decode(self, flat=True):

@@ -1,11 +1,9 @@
 import sys
-sys.path.append('..')
-
-import itertools
 import numpy
 import scipy.optimize
 
-from booking.decoder import Captcha
+sys.path.append('..')
+from booking.decoder import Captcha  # noqa
 
 
 EXPECTED = [

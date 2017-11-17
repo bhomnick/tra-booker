@@ -1,7 +1,7 @@
 import numpy
 from math import sqrt
 from operator import itemgetter
-from PIL import Image
+from PIL import Image, ImageOps
 from scipy import ndimage
 
 
