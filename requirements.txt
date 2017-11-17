@@ -1,6 +1,7 @@
 flake8==3.5.*
 numpy==1.13.*
 Pillow==4.3.*
+pypandoc==1.*
 pytest==3.2.*
 scipy==1.0.*
 tox==2.9.*
