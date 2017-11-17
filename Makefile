@@ -1,12 +1,14 @@
 SHELL=/bin/bash
-CYAN=\\033[0;36m
-NC=\\033[0m
 
 # Docker-compose
 build: ## Build all docker images.
 	docker-compose build
+flake8: ## Run flake8.
+	docker-compose run tra-captcha flake8 .
+shell: ## Open a bash shell inside docker conatiner.
+	docker-compose run tra-captcha bash
 test: ## Run test suite.
-	docker-compose run core bash -c "bin/test.sh $(M)"
+	docker-compose run tra-captcha pytest
 clean: ## Clean the application.
 	find . -name '*.py[co]' -delete
 	find . -type d -name "__pycache__" -delete
