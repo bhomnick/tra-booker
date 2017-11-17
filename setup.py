@@ -3,13 +3,6 @@
 from setuptools import setup, find_packages
 
 
-try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError, OSError):
-    long_description = open('README.md').read()
-
-
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -33,7 +26,7 @@ setup(
     version='0.0.1',
     description=("Captcha decoder for the Taiwan Railways Administration (TRA)"
                  " online ticketing system"),
-    long_description=long_description,
+    long_description=open('README.md').read(),
     license='MIT License',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
