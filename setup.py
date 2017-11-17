@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import decoder
 from setuptools import setup, find_packages
 
 
@@ -31,7 +30,7 @@ setup(
     author="Ben Homnick",
     author_email="bhomnick@gmail.com",
     name="tra-captcha",
-    version=decoder.__version__,
+    version='0.0.1',
     description=("Captcha decoder for the Taiwan Railways Administration (TRA)"
                  " online ticketing system"),
     long_description=long_description,
