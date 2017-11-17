@@ -65,3 +65,7 @@ parameter as `False`.
  [('4', 0.858116330321033), ('4', 0.8239120910959047)]]
 ```
 
+## Special thanks
+
+Inspired by @mkarpeles's more generic [captcha-decoder](https://github.com/mekarpeles/captcha-decoder)
+ which is in turn based off work by @boyter.
