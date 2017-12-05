@@ -8,7 +8,7 @@ from scipy import ndimage
 def channel(im, colors):
     """
     Composes an new image with the same dimensions as `im` but draws only
-    pixels of the specified color channels on a white background
+    black pixels of the specified color channels on a white background
 
     Args:
         im (Image): Source image.
@@ -18,14 +18,15 @@ def channel(im, colors):
     Return:
         Image: The resulting image.
     """
-    sample = Image.new('P', im.size, 255)
+    sample = Image.new('1', im.size, 1)
     width, height = im.size
     for col in range(width):
         for row in range(height):
             pixel = im.getpixel((col, row))
             if pixel in colors:
-                sample.putpixel((col, row), pixel)
-    return sample
+                sample.putpixel((col, row), 0)
+
+    return sample.convert('L')
 
 
 def features(im, max_features=6, min_pixels=50):
@@ -110,9 +111,7 @@ def monochrome(im, limit=5, min=0, max=255):
         reverse=True
     )[:limit]
 
-    channeled = channel(im, [c[1] for c in colors])
-
-    return channeled.point(lambda x: 0 if x < 255 else 255, '1')
+    return channel(im, [c[1] for c in colors])
 
 
 def scale(im1, im2):
@@ -134,22 +133,6 @@ def scale(im1, im2):
     return im1, im2
 
 
-def vectorize(im):
-    """
-    Get a flattened sequence of pixel values.
-
-    Args:
-        im (Image): Source image.
-
-    Return:
-        list: List of integer values.
-    """
-    d1 = {}
-    for count, i in enumerate(im.getdata()):
-        d1[count] = i
-    return d1
-
-
 def cosine_similarity(im1, im2):
     """
     Calculates the cosine similarity between vector space representations
@@ -162,12 +145,15 @@ def cosine_similarity(im1, im2):
     Return:
         float: The calculated similarity, from 0 to 1.
     """
-    def _magnitude(c):
-        return sqrt(sum(count**2 for word, count in c.items()))
+    def _vectorize(im):
+        return list(im.getdata())
 
-    c1, c2 = [vectorize(im) for im in scale(im1, im2)]
-    topvalue = 0
-    for word, count in c1.items():
-        if word in c2:
-            topvalue += count * c2[word]
-    return topvalue / (_magnitude(c1) * _magnitude(c2))
+    def _dot_product(v1, v2):
+        return sum(c1*c2 for c1, c2 in zip(v1, v2))
+
+    def _magnitude(v):
+        return sqrt(sum(c**2 for c in v))
+
+    v1, v2 = [_vectorize(im) for im in scale(im1, im2)]
+
+    return _dot_product(v1, v2) / (_magnitude(v1) * _magnitude(v2))
